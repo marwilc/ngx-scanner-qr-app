@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "docs/",
+                        "outputPath": "dist/ngx-scanner-qr-app",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -56,6 +56,25 @@
                             "extractLicenses": false,
                             "sourceMap": true,
                             "namedChunks": true
+                        },
+                        "gh-pages": {
+                            "baseHref": "/ngx-scanner-qr-app/",
+                            "outputPath": "docs",
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "aot": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                }
+                            ]
                         }
                     },
                     "defaultConfiguration": "production"
