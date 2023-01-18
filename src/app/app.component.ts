@@ -16,6 +16,10 @@ export class AppComponent {
     @ViewChild(QrScannerComponent)
     qrScannerComponent: QrScannerComponent;
 
+    frontCam: any;
+    backCam: any;
+    currentCam: any;
+
     ngAfterViewInit(): void {
         //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
         //Add 'implements AfterViewInit' to the class.
@@ -31,16 +35,21 @@ export class AppComponent {
                 }
             }
             if (videoDevices.length > 0) {
-                let choosenDev;
                 for (const dev of videoDevices) {
+                    console.log(dev);
                     if (dev.label.includes('front')) {
-                        choosenDev = dev;
-                        break;
+                        this.frontCam = dev;
+                    }
+
+                    if (dev.label.includes('back')) {
+                        this.backCam = dev;
                     }
                 }
-                if (choosenDev) {
+
+                this.currentCam = this.frontCam;
+                if (this.currentCam) {
                     this.qrScannerComponent.chooseCamera.next(
-                        choosenDev
+                        this.currentCam
                     );
                 } else {
                     this.qrScannerComponent.chooseCamera.next(
@@ -53,5 +62,14 @@ export class AppComponent {
         this.qrScannerComponent.capturedQr.subscribe((result) => {
             console.log(result);
         });
+    }
+
+    swapCam() {
+        if (this.currentCam === this.backCam) {
+            this.currentCam = this.frontCam;
+        } else {
+            this.currentCam = this.backCam;
+        }
+        this.qrScannerComponent.chooseCamera.next(this.currentCam);
     }
 }
